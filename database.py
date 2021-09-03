@@ -9,10 +9,10 @@ data = cursor.fetchall()
 connection.close()
 
 
-def update_customer(yeni_deger, kart_no):
+def update_customer(guncellenecek_alan, yeni_deger, kart_no):
     connection = s.connect("customers.db")
 
-    connection.execute("update info set balance = " + str(yeni_deger) + " where cardno = " + kart_no)
+    connection.execute("update info set " + guncellenecek_alan + " = " + str(yeni_deger) + " where cardno = " + kart_no)
 
     connection.commit()
     connection.close()

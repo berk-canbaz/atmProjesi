@@ -5,9 +5,10 @@ def menus():
     loop = True
     while loop:
         print("""
-        Bakiye Sorgula: 1
-        Para Yatır    : 2
-        Para Çek      : 3
+        Bakiye Sorgula : 1
+        Para Yatır     : 2
+        Para Çek       : 3
+        Şifre Güncelle : 4
         """)
 
         islem = input("İşlem Seçiniz: ")
@@ -24,6 +25,9 @@ def menus():
             bI.para_cek()
             loop = menu_sec()
 
+        elif islem == "4":
+            bI.sifre_guncelle()
+            loop = menu_sec()
 
 def menu_sec():
     print("""
