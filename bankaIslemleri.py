@@ -18,6 +18,24 @@ def log_in():
             print("Eksik veya Hatalı Giriş Yaptınız, Lütfen Tekrar Deneyiniz")
             break
 
+def log_in2():
+    loop = True
+    while loop:
+        card_no = input("Kart Numarası: ")
+        passw = input("Şifre: ")
+        for i in db.data:
+            if card_no != i[4] and passw != i[5]:
+                print("Eksik veya Hatalı Giriş Yaptınız, Lütfen Tekrar Deneyiniz")
+                break
+
+            else:
+                global customerInfo
+                customerInfo = list(i)
+                print("Hoşgeldiniz ", customerInfo[1], customerInfo[2])
+                loop = False
+                break
+        continue
+
 
 def bakiye_sorgula():
     print("Bakiyeniz: ", customerInfo[6])
@@ -49,6 +67,13 @@ def sifre_guncelle():
                 newPasswordAgain = input("Yeni Şifreyi Tekrar Giriniz: ")
 
                 if newPassword == newPasswordAgain:
+                    if len(newPassword) != 4:
+                        print("Lütfen 4 Rakamdan Oluşan Bir Şifre Giriniz")
+                        continue
+
+                    else:
+                        pass
+
                     db.update_customer("password", newPassword, customerInfo[0])
                     print("Şifreniz Başarıyla Güncellendi")
                     loop = False
