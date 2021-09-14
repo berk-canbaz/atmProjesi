@@ -17,6 +17,7 @@ def select(iban):
     data = cursor.fetchall()
 
     connection.close()
+
     return data
 
 

@@ -72,30 +72,39 @@ def havale():
 
 
         target = list(db.select(iban))
-        targetList = list(target[0])
+        if len(target) == 0:
+            print("Eksik veya Yanlış Bir IBAN Numarası Girdiniz, Lütfen Tekrar Deneyiniz")
+            continue
+        else:
+            loop = False
+            pass
+        while not loop:
+            targetList = list(target[0])
 
-        loop2 = True
-        while loop2:
-            if iban == targetList[7]:
-                print("""
-                Havale {} Hesabına Yatırılacaktır, Devam Etmek İçin 1'e, Yeni IBAN Girmek İçin 2'ye, Menüye Dönmek İçin 3'e Basınız
-                """.format(targetList[1][0:2] + "*** " + targetList[2][0:2] + "***"))
-                secim = input("Devam Etmek İstiyor Musunuz?: ")
+            loop2 = True
+            while loop2:
+                if iban == targetList[7]:
+                    print("""
+                    Havale {} Hesabına Yatırılacaktır, Devam Etmek İçin 1'e, Yeni IBAN Girmek İçin 2'ye, Önceki Menüye Dönmek İçin 3'e Basınız
+                    """.format(targetList[1][0:2] + "*** " + targetList[2][0:2] + "***"))
+                    secim = input("Devam Etmek İstiyor Musunuz?: ")
 
-                if secim == "1":
-                    customerInfo[6] -= amount
-                    db.update_customer("balance", customerInfo[6], customerInfo[0])
-                    targetList[6] += amount
-                    db.update_customer("balance", targetList[6], targetList[0])
-                    print("Havale Gerçekleşti\n Yeni Bakiyeniz: ", customerInfo[6])
-                    loop2 = False
-                    break
+                    if secim == "1":
+                        customerInfo[6] -= amount
+                        db.update_customer("balance", customerInfo[6], customerInfo[0])
+                        targetList[6] += amount
+                        db.update_customer("balance", targetList[6], targetList[0])
+                        print("Havale Gerçekleşti\n Yeni Bakiyeniz: ", customerInfo[6])
+                        loop2 = False
+                        break
 
-                if secim == "2":
-                    loop2 = True
-                    break
+                    if secim == "2":
+                        loop2 = True
+                        break
 
-                if secim == "3":
-                    break
+                    if secim == "3":
+                        break
+            break
         break
+
 
