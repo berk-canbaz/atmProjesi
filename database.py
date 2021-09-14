@@ -4,15 +4,28 @@ connection = s.connect("customers.db")
 
 cursor = connection.execute("select * from info")
 
-data = cursor.fetchall()
+data = list(cursor.fetchall())
 
 connection.close()
 
 
-def update_customer(guncellenecek_alan, yeni_deger, kart_no):
+def select(iban):
     connection = s.connect("customers.db")
 
-    connection.execute("update info set " + guncellenecek_alan + " = " + str(yeni_deger) + " where cardno = " + kart_no)
+    cursor = connection.execute("select * from info where iban = '%s'" % iban)
+
+    data = cursor.fetchall()
+
+    connection.close()
+    return data
+
+
+
+
+def update_customer(guncellenecek_alan, yeni_deger, kriter):
+    connection = s.connect("customers.db")
+
+    connection.execute("update info set " + guncellenecek_alan + " = " + str(yeni_deger) + " where id = " + str(kriter))
 
     connection.commit()
     connection.close()

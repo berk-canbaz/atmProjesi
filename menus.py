@@ -8,7 +8,9 @@ def menus():
         Bakiye Sorgula : 1
         Para Yatır     : 2
         Para Çek       : 3
-        Şifre Güncelle : 4
+        Havale Yap     : 4
+        Şifre Güncelle : 5
+        Çıkış Yap      : 6
         """)
 
         islem = input("İşlem Seçiniz: ")
@@ -26,9 +28,15 @@ def menus():
             loop = menu_sec()
 
         elif islem == "4":
+            bI.havale()
+            loop = menu_sec()
+
+        elif islem == "5":
             bI.sifre_guncelle()
             loop = menu_sec()
 
+        elif islem == "6":
+            break
 def menu_sec():
     print("""
     Menüye Dön: 1

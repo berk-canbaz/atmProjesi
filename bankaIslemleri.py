@@ -26,14 +26,14 @@ def bakiye_sorgula():
 def para_yatir():
     amount = int(input("Tutar Giriniz: "))
     customerInfo[6]+= amount
-    db.update_customer("balance", customerInfo[6], customerInfo[4])
+    db.update_customer("balance", customerInfo[6], customerInfo[0])
     print("Yeni Bakiyeniz: ", customerInfo[6])
 
 
 def para_cek():
     amount = int(input("Tutar Giriniz: "))
     customerInfo[6] -= amount
-    db.update_customer("balance", customerInfo[6], customerInfo[4])
+    db.update_customer("balance", customerInfo[6], customerInfo[0])
     print("Yeni Bakiyeniz: ", customerInfo[6])
 
 
@@ -49,7 +49,7 @@ def sifre_guncelle():
                 newPasswordAgain = input("Yeni Şifreyi Tekrar Giriniz: ")
 
                 if newPassword == newPasswordAgain:
-                    db.update_customer("password", newPassword, customerInfo[4])
+                    db.update_customer("password", newPassword, customerInfo[0])
                     print("Şifreniz Başarıyla Güncellendi")
                     loop = False
                     loop2 = False
@@ -62,3 +62,40 @@ def sifre_guncelle():
         while loop:
             print("Eksik veya Hatalı Giriş Yaptınız, Lütfen Tekrar Deneyiniz")
             break
+
+
+def havale():
+    loop = True
+    while loop:
+        iban = input("IBAN Numarası Giriniz: ")
+        amount = int(input("Tutar Giriniz: "))
+
+
+        target = list(db.select(iban))
+        targetList = list(target[0])
+
+        loop2 = True
+        while loop2:
+            if iban == targetList[7]:
+                print("""
+                Havale {} Hesabına Yatırılacaktır, Devam Etmek İçin 1'e, Yeni IBAN Girmek İçin 2'ye, Menüye Dönmek İçin 3'e Basınız
+                """.format(targetList[1][0:2] + "*** " + targetList[2][0:2] + "***"))
+                secim = input("Devam Etmek İstiyor Musunuz?: ")
+
+                if secim == "1":
+                    customerInfo[6] -= amount
+                    db.update_customer("balance", customerInfo[6], customerInfo[0])
+                    targetList[6] += amount
+                    db.update_customer("balance", targetList[6], targetList[0])
+                    print("Havale Gerçekleşti\n Yeni Bakiyeniz: ", customerInfo[6])
+                    loop2 = False
+                    break
+
+                if secim == "2":
+                    loop2 = True
+                    break
+
+                if secim == "3":
+                    break
+        break
+
